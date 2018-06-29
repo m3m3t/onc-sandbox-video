@@ -17,7 +17,7 @@ ONC deploys video feeds to multiple locations and has accumulated terabytes of v
    python3 reduce_script.py
    ```
 
-This will downloaded [TODO] videos of underwater videos from the [Axis P1347 Video Camera](https://data.oceannetworks.ca/Camera?cameraid=12170) at to `/app/data` (or whatever you've set your **outPath**), reduce the videos down.  If `keep_original` is **True** than the summarized video is tagged with *_summ*.  Otherwise, the original video is overwritten.
+This will downloaded [TODO] videos of underwater videos from the [Axis P1347 Video Camera](https://data.oceannetworks.ca/Camera?cameraid=12170) at to `/app/data` (or whatever you've set your **outPath**), reduce the videos down.  If `keep_original` is **True** than the summarized video is tagged with *_summ* (each video is between 4-5 minutes).  Otherwise, the original video is overwritten.
 
 ## Running Locally (GPU)
 
