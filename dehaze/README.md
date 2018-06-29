@@ -27,12 +27,12 @@ The algorithm for dehaze is in the main script `dehaze_script.py`.  The tuneable
 
 __Params__
 
-preprocess : Enable preprocessing (Default=True)
-wsize      : Size of kernel/neighbourhood to consider when calculating the dark channel (**Default=19**)
-ratio      : How many "bright" pixels in the dark channel (**Default=0.001**)
-omega      : A percentage of the dark channel for the hazy image normalize by the atmospheric light (**Default=0.98**)
-refine     : Refine the transmission map using a guided filter (**Default=False**)
-t_0        : Since the dark channel tends toward 0, this prameter prevents the image from being too dark (**Default=0.1**)
+- preprocess : Enable preprocessing (Default=True)
+- wsize      : Size of kernel/neighbourhood to consider when calculating the dark channel (**Default=19**)
+- ratio      : How many "bright" pixels in the dark channel (**Default=0.001**)
+- omega      : A percentage of the dark channel for the hazy image normalize by the atmospheric light (**Default=0.98**)
+- refine     : Refine the transmission map using a guided filter (**Default=False**)
+- t_0        : Since the dark channel tends toward 0, this prameter prevents the image from being too dark (**Default=0.1**)
 
 __Workflow__
 1.  The images are preprocessed by taking the zero-mean of the RGB channels and clipping between `[-1,1]` and normalized.
