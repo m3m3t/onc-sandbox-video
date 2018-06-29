@@ -1,0 +1,27 @@
+{
+    "onc" : {
+        "token" : "PUT-YOUR-API-TOKEN-HERE",
+        "production" : 1,
+        "showInfo" : 1,
+        "outPath" : "/app/data",
+        "maxRetries" : 100,
+        "downloadResultsOnly" : 0, 
+        "includeMetadataFile" : 0
+    },
+    "search" : {
+        "deviceCode" : "UA3DCAMERA",
+        "locationCode": "P3D",
+        "extension": "bmp",
+        "dateFrom" : "2016-01-07T18:00:00.000Z",
+        "dateTo" : "2016-01-07T18:02:00.000Z"
+    },
+
+    "dehaze" : {
+        "preprocess" : 1,
+        "wsize" : 19,
+        "t_0" : 0.1,
+        "ratio" : 0.001,
+        "omega" : 0.98,
+        "refine" : 0
+    }
+}
