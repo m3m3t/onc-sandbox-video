@@ -49,9 +49,30 @@ See individual use case REAMDEs for testing and deploying locally.
 
 ## Client Library
 
-The Client library is also available in Matlab and R.
+The documentation for the Oceans 2.0 API is available [here](https://wiki.oceannetworks.ca/display/O2A/Oceans+2.0+API+Home).  Additional scripts and instructions on exploring and discovering available videos available (in Matlab and R as well).
 
-[Oceans 2.0 API](https://wiki.oceannetworks.ca/display/O2A/Oceans+2.0+API+Home)
+There will be cases when the Sanbox does not have a particular python module.  A workaround is to import the module at runtime (an example of this can be found in `reduce_script.py`.  This is an example of function:
+
+```python
+import importlib
+
+def install_and_import(module,package):
+    try:
+        importlib.import_module(module)
+    except ImportError:
+        import pip
+        if pip.__version__.startswith('10'):
+            from pip._internal import main as pipmain
+        else:
+            from pip import main as pipmain 
+        
+        pipmain(['install', '--target=.', package])
+    finally:
+        globals()[module] = importlib.import_module(module)
+
+install_and_import("skimage", "scikit-image")
+skimage.__version__
+```
 
 ## Authors
 
