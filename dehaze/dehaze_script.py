@@ -46,6 +46,8 @@ def dehaze(src, opts):
     at = atmosphere(img, img_dark, opts["ratio"])
     t = transmission(img, at, opts["omega"], opts["wsize"])
     if opts["refine"]:
+        import cv2 as cv
+        from cv2.ximgproc import guidedFilter
         t = guidedFilter(cv.cvtColor(src, cv.COLOR_BGR2GRAY), t, 5, 0.85)[:,:,np.newaxis]
     return reconstruct(img, at, t, opts["t_0"])
 
