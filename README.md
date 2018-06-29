@@ -7,31 +7,38 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-* onc
-* OpenCV 3.x 
-* OpenCV contrib
-* imageio
-* sklearn
-* ffmpeg 
+__Python 3 modules__
+* onc               - Oceans 2.0 Python client library
+* OpenCV 3.x        - OpenCV Computer Vision Library          
+* OpenCV contrib    - OpenCV extra modules
+* imageio           - Image and video processing (faster than the OpenCV)
+* sklearn           - Machine learning libraries
+* numpy             - Advance python matrix manipulation
+* numba             - CUDA GPU bindings (optional)
+* pip               - Python package installer (optional)
+
+__Libraries__
+* ffmpeg            - Video processing
+* cuda-toolkit      - GPU processing (optional)
 
 ### Installing
 
-To install the using the `pip3` requirements file.  
+To install the using the `pip` requirements file.  
 
 ```
 pip install -r requirements.txt
 ```
 
-**NOTE**: You can install ffmpeg using `imageio` API:
-```
-imageio.plugins.ffmpeg.download()
-```
-
-This will install the opencv-python* packages but not any additional libraries and possibly override any custom installations.  To test if the installation was successful, from the python 3 console:
+This will install the opencv-python* packages but not any additional libraries that are required and possibly override any custom installations.  To test if the installation was successful, from the python 3 console:
 
 ```
 import cv2
 cv2.__version__
+```
+
+**NOTE**: You can install ffmpeg using `imageio` API if you are working in `conda` or `virtualenv`:
+```
+imageio.plugins.ffmpeg.download()
 ```
 
 See individual use case REAMDEs for testing and deploying locally.
