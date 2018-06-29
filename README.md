@@ -1,5 +1,5 @@
 # onc-sandbox-video
-This project gives two Python 3 use cases for video and image process for the [ONC Oceans 2.0](https://data.oceannetworks.ca) API and Sandbox.  An Oceans 2.0 account is required (it's free) to obtain an API token to run the examples.
+This project gives two Python 3 use cases for video and image process for the [ONC Oceans 2.0](https://data.oceannetworks.ca) API and Sandbox.  An Oceans 2.0 account is required (it's free) to obtain an API token to run the examples.  Update the `params.json` file(s) with your token to run the use cases.
 
 ## Getting Started
 
