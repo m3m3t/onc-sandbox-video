@@ -78,19 +78,6 @@ with open("params.json", "r") as f:
     search_ = params["search"]
     opts    = params["summarize"]
     
-    from random import shuffle
-    from glob import glob
-    video_files = glob("/app/data/*.mp4")
-    shuffle(video_files)
-
-    for video_fn in video_files:
-        print("Processing ", video_fn)
-        video_out_fn = video_fn.replace("." + search_["extension"], "_summ." + search_["extension"])
-        with Timer(verbose=True) as t:
-            runVideo(video_fn, video_out_fn, opts)
-        break
-
-    """
     from onc.onc import ONC
     onc = ONC(onc_["token"], 
               onc_["production"],
@@ -116,8 +103,6 @@ with open("params.json", "r") as f:
                 onc_["includeMetadataFile"])
 
     toDownload = [ (order['url'], order['file']) for order in orders['downloadResults']]
-    from random import shuffle
-    shuffle(toDownload)
     for url,video_fn in toDownload:
         result = onc.downloadFile(url)
         print("{} downloaded: {}".format(video_fn, result['downloaded']))
@@ -125,4 +110,3 @@ with open("params.json", "r") as f:
         runVideo(video_fn, video_out_fn, opts)
         if not opts["keepOriginal"]:
             shutil.move(video_out_fn, video_fn)
-    """
