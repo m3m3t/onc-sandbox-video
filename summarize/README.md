@@ -33,7 +33,7 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/lib/nvidia-384
 
 ## Video Summarization Algorithm 
 
-The algorithm used was by (Dash & Albu)[https://link.springer.com/chapter/10.1007/978-3-319-70353-4_37].  The algorithm models the background using a Gaussion Mixture Model (GMM).  This produces a lot of noise in underwater videos because of current and particulars in the water.  To offset that, per pixel activation and ajustment functions were added.  When a certain number of pixels are activated, the samples frames are added to the output summarized video.  For most cases, roughly 50% of the video is reduced.
+The algorithm used was by [Dash & Albu](https://link.springer.com/chapter/10.1007/978-3-319-70353-4_37).  The algorithm models the background using a Gaussion Mixture Model (GMM).  This produces a lot of noise in underwater videos because of current and particulars in the water.  To offset that, per pixel activation and ajustment functions were added.  When a certain number of pixels are activated, the samples frames are added to the output summarized video.  For most cases, roughly 50% of the video is reduced.
 
 __Params__
 
