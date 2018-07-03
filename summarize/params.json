@@ -1,0 +1,28 @@
+{
+    "onc" : {
+        "token" : "YOUR-TOKEN-HERE",
+        "production" : 1 ,
+        "showInfo" : 1,
+        "outPath" : "/app/data",
+        "maxRetries" : 100,
+        "downloadResultsOnly" : 1, 
+        "includeMetadataFile" : 0
+    },
+    "search" : {
+        "deviceCode" : "AXISCAM00408CB52C86",
+        "locationCode": "BACME",
+        "extension": "mp4",
+        "dateFrom" : "2017-12-30T00:00:00.000Z",
+        "dateTo" : "2018-01-01T00:00:00.000Z"
+    },
+
+    "summarize" : {
+        "samplingRate" : 16,
+        "sampleThreshold" : 10,
+        "keepOriginal" : 1,
+        "pch": {
+            "learning_rate" : 0.1,
+            "use_gpu" : 0
+         }
+    }
+}
