@@ -23,7 +23,7 @@ __Libraries__
 
 ### Installing
 
-To install the using the `pip` requirements file.  
+To install the using the `pip` requirements file.  Each use case has it's own `requirements.txt` file which also includes the optional modules.
 
 ```
 pip install -r requirements.txt
@@ -47,11 +47,13 @@ See individual use case REAMDEs for testing and deploying locally.
 
 [Deploying in the Sandbox](https://drive.google.com/open?id=1eVfsFQbJX2QYvnP3pKdwGbRFLl6aowwX)
 
+**Note**:  Select the `params.json` and the `utils.py` files as well when loading the scripts described in the video.
+
 ## Client Library
 
 The documentation for the Oceans 2.0 API is available [here](https://wiki.oceannetworks.ca/display/O2A/Oceans+2.0+API+Home).  Additional scripts and instructions on exploring and discovering available videos available (in Matlab and R as well).
 
-There will be cases when the Sanbox does not have a particular python module.  A workaround is to import the module at runtime (an example of this can be found in `reduce_script.py`.  This is an example of function:
+There will be cases when the Sanbox does not have a particular python module.  A workaround is to import the module at runtime (an example of this can be found in `dehaze_script.py`.  This is an example of function:
 
 ```python
 import importlib
