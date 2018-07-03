@@ -12,7 +12,7 @@ ONC deploys video feeds to multiple locations and has accumulated terabytes of v
        sudo chown <user> /app/data
        ```
    * Windows: Update the `params.json` outPath to a local folder.
-3. From the `dehaze` folder
+3. From the `summarize` folder
    ```
    python3 reduce_script.py
    ```
