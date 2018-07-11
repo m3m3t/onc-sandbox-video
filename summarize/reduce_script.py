@@ -5,6 +5,7 @@ import cv2 as cv
 import numpy as np
 import json 
 import shutil
+import sys
 
 from pch import PCH
 
@@ -35,7 +36,7 @@ def runVideo(video_fn, video_out_fn, opts, debug=False):
         try:
             frame_color = video.get_data(frame_num) 
         except:
-            print("Can't access frame #", frame_num)
+            print("Can't access frame #", frame_num, file=sys.stderr)
             continue
 
         gray_curr = cv.resize(frame_color, (frame_size[1],frame_size[0])) 
