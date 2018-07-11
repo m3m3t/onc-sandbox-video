@@ -1,11 +1,10 @@
-import imageio
-
 from onc.onc import ONC
-from utils import Timer
 
+import imageio
 import cv2 as cv
 import numpy as np
 import json 
+import shutil
 
 from pch import PCH
 
@@ -26,25 +25,21 @@ def runVideo(video_fn, video_out_fn, opts, debug=False):
     pch = PCH(**opts["pch"])
     pch.initialize(frame_size, fps)
 
-    firstFiveSeconds = int(fps)*5
     sampledFrames = np.arange(0,nframes, opts['samplingRate'])
         
     frame_color = video.get_data(0)
     gray_prev = cv.resize(frame_color, (frame_size[1],frame_size[0])) 
     gray_prev = cv.cvtColor(gray_prev, cv.COLOR_RGB2GRAY) 
     
-    #for frame_num, frame_color in enumerate(video.iter_data()):
     for frame_num in sampledFrames:
-        frame_color = video.get_data(frame_num) 
+        try:
+            frame_color = video.get_data(frame_num) 
+        except:
+            print("Can't access frame #", frame_num)
+            continue
 
         gray_curr = cv.resize(frame_color, (frame_size[1],frame_size[0])) 
         gray_curr = cv.cvtColor(gray_curr, cv.COLOR_RGB2GRAY) 
-     
-        """     
-        if gray_prev is None or frame_num % opts['samplingRate'] != 0:
-            gray_prev = gray_curr 
-            continue
-        """
 
         result = pch.update_model(gray_prev, gray_curr)
         result[result < 255] = 0
@@ -52,12 +47,11 @@ def runVideo(video_fn, video_out_fn, opts, debug=False):
 
         gray_prev = gray_curr
 
-        if new_motion > opts["sampleThreshold"]: # or firstFiveSeconds > 0: 
+        if new_motion > opts["sampleThreshold"]: 
             from_frame = frame_num - opts["samplingRate"]
             for num in np.arange(from_frame, frame_num):
                 video_out.append_data(video.get_data(num))
             video_out.append_data(frame_color)
-            #firstFiveSeconds -= 1
         
         if frame_num % int(fps)*5 == 0:
             print("- {} seconds done.".format(frame_num / fps))
@@ -110,3 +104,6 @@ with open("params.json", "r") as f:
         runVideo(video_fn, video_out_fn, opts)
         if not opts["keepOriginal"]:
             shutil.move(video_out_fn, video_fn)
+            print("Removing original file ", video_fn)
+        print("{} finished.".format(video_fn))
+        
