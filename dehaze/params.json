@@ -1,6 +1,6 @@
 {
     "onc" : {
-        "token" : "PUT-YOUR-API-TOKEN-HERE",
+        "token" : "YOUR-TOKEN-HERE",
         "production" : 1,
         "showInfo" : 1,
         "outPath" : "/app/data",
@@ -22,6 +22,7 @@
         "t_0" : 0.1,
         "ratio" : 0.001,
         "omega" : 0.98,
-        "refine" : 0
+        "refine" : 0, 
+        "keepOriginal" : 1
     }
 }
