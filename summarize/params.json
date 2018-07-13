@@ -19,7 +19,7 @@
     "summarize" : {
         "samplingRate" : 16,
         "sampleThreshold" : 10,
-        "keepOriginal" : 1,
+        "keepOriginal" : 0,
         "pch": {
             "learning_rate" : 0.1,
             "use_gpu" : 0
