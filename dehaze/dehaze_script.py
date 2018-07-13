@@ -120,7 +120,7 @@ with open("params.json", "r") as f:
     print("INFO: Downloaded: ", downloaded)
     outPath = onc_["outPath"]
     for tar_fn in downloaded:
-        #The camera array images come in a tarfile (.tar) that we need to extract
+        #The camera array images come in a tarfile (.tar) that we need to extract 
         images = utils.untar(tar_fn, outPath, "bmp")
         
 
@@ -130,23 +130,27 @@ with open("params.json", "r") as f:
         #If we want to keep the original files than we need to save them somewhere else
         new_tar_fn = tar_fn.replace(".tar", "-dehazed.tar")
         source_dir = os.path.dirname(images[0])
-        if opts["keepOriginal"]:
-            source_dir = source_dir + "-dehazed"
-            os.mkdir(os.path.join(outPath,source_dir))
-        
+        out_dir = source_dir + "-dehazed"
+        os.mkdir(os.path.join(outPath, out_dir))
+       
+
         #Save the images
         for i, img in enumerate(processed):
             basename = os.path.basename(images[i])
-            print("{}: Saving {} to {} ...".format(tar_fn, basename, source_dir))
-            imageio.imwrite(os.path.join(outPath,source_dir,basename), np.uint8(img))
+            print("{}: Saving {} to {} ...".format(tar_fn, basename, out_dir))
+            imageio.imwrite(os.path.join(outPath,out_dir,basename), np.uint8(img))
 
         #Create the tar file and remove the directories we created
-        utils.tar(new_tar_fn, outPath, source_dir)
+        utils.tar(new_tar_fn, outPath, out_dir)
         
-        print("{}: Removing source directory".format(source_dir))
-        shutil.rmtree(os.path.join(outPath, os.path.dirname(images[0]))) 
+        print("{}: Removing source directory".format(tar_fn))
+        shutil.rmtree(os.path.join(outPath, out_dir)) 
         shutil.rmtree(os.path.join(outPath, source_dir)) 
-        
+
+        if not opts["keepOriginal"]:
+            print("{}: removing original download.")
+            os.remove(tar_fn) 
+
         print("{}:  Finished.".format(tar_fn))
 
 print("INFO: Script finished")
