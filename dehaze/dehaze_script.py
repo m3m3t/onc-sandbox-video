@@ -54,21 +54,30 @@ the image without the underwater haze
 def reconstruct( img, at, t, t_0):
     #J = I(x) - A / max(t, t_min) + A
     J = np.abs(img - at) / np.maximum(t_0, t) + at 
-    return (1 - (J - J.min()) / (J.max() - J.min())) * 255
+    return np.floor((1 - (J - J.min()) / (J.max() - J.min())) * 255).astype(np.uint8)
 
 """
 Preprocess the image by performing zero-mean and clip
 the values to range [-1,1] and normalize [0,1]
 """
-def preprocess(src):
+def preprocess(src, zero_mean=False):
     img = src.copy().astype(np.float32)
-    img = zscore(img)
-    img = np.clip(img, -1, 1)
-    return (img + 1.) / 2.
+    if zero_mean:
+        img = zscore(img)
+        img = np.clip(img, -1, 1)
+        return (img + 1.) / 2.
+    
+    return img/255.
+
+def equalize(f):
+    h = np.histogram(f, bins=np.arange(257))[0]
+    H = np.cumsum(h) / float(np.sum(h))
+    e = np.floor(H[f.flatten().astype('int')] * 255.)
+    return e.reshape(f.shape)
 
 #Perform dehazing of image
 def dehaze(src, opts):
-    img = preprocess(src) if opts["preprocess"] else src.copy().astype(np.float32) 
+    img = preprocess(src, opts["preprocess"]) 
 
     img_dark = dark_channel(img, opts["wsize"])
     at = atmosphere(img, img_dark, opts["ratio"])
@@ -76,8 +85,14 @@ def dehaze(src, opts):
     if opts["refine"]:
         import cv2 as cv
         from cv2.ximgproc import guidedFilter
-        t = guidedFilter(cv.cvtColor(src, cv.COLOR_BGR2GRAY), t, 5, 0.85)[:,:,np.newaxis]
-    return reconstruct(img, at, t, opts["t_0"])
+        t = guidedFilter(cv.cvtColor(src, cv.COLOR_BGR2GRAY), t, 15, 0.85)[:,:,np.newaxis]
+    
+    img = reconstruct(img, at, t, opts["t_0"])
+   
+    if opts["postprocess"]:
+        for i in np.arange(0,3):
+            img[:,:,i] = equalize(img[:,:,i])
+    return img
 
 #Load user defined options from a json file 
 print("INFO: Loading user settings from json file")
@@ -128,7 +143,7 @@ with open("params.json", "r") as f:
         processed = [ dehaze(imageio.imread(os.path.join(outPath, img)), opts) for img in images ]
        
         #If we want to keep the original files than we need to save them somewhere else
-        new_tar_fn = tar_fn.replace(".tar", "-dehazed.tar")
+        new_tar_fn = tar_fn.replace(".tar", "-dehazed.tgz")
         source_dir = os.path.dirname(images[0])
         out_dir = source_dir + "-dehazed"
         os.mkdir(os.path.join(outPath, out_dir))
@@ -138,7 +153,7 @@ with open("params.json", "r") as f:
         for i, img in enumerate(processed):
             basename = os.path.basename(images[i])
             print("{}: Saving {} to {} ...".format(tar_fn, basename, out_dir))
-            imageio.imwrite(os.path.join(outPath,out_dir,basename), np.uint8(img))
+            imageio.imwrite(os.path.join(outPath,out_dir,basename), img)
 
         #Create the tar file and remove the directories we created
         utils.tar(new_tar_fn, outPath, out_dir)

@@ -1,8 +1,8 @@
 {
     "onc" : {
-        "token" : "YOUR-TOKEN-HERE",
+        "token" : "YOUR_TOKEN_HERE",
         "production" : 1,
-        "showInfo" : 1,
+        "showInfo" : 0,
         "outPath" : "/app/data",
         "maxRetries" : 100,
         "downloadResultsOnly" : 0, 
@@ -18,11 +18,12 @@
 
     "dehaze" : {
         "preprocess" : 1,
+        "postprocess": 1,
         "wsize" : 19,
         "t_0" : 0.1,
         "ratio" : 0.001,
         "omega" : 0.98,
-        "refine" : 0, 
+        "refine" : 1, 
         "keepOriginal" : 1
     }
 }
