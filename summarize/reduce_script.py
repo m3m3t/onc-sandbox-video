@@ -21,7 +21,11 @@ Run through the video and only save frames that exhibit
 a certain amount of novelty that modelled using the PCH
 algorithm.
 """
-def runVideo(video_fn, video_out_fn, opts, debug=False):
+def runVideo(video_fn, video_out_fn, opts, video_debug_fn=""):
+    #enable debug mode
+    debug = opts['debug']
+    print("INFO: Debug mode = {}".format(debug))
+
     video = imageio.get_reader(video_fn,  'ffmpeg')
 
     #To speed up processing, we resize the video to smaller
@@ -32,6 +36,9 @@ def runVideo(video_fn, video_out_fn, opts, debug=False):
 
     #We'll use the same frames per second as the input video
     video_out = imageio.get_writer(video_out_fn, fps=fps)
+
+    if debug:
+        video_debug = imageio.get_writer(video_debug_fn, fps=fps)
 
     print(video._meta)
     
@@ -62,6 +69,7 @@ def runVideo(video_fn, video_out_fn, opts, debug=False):
 
         #Given the underwater is murky, we'll only consider high novel events (255). 
         result = pch.update_model(gray_prev, gray_curr)
+        display_result = result.copy()
         result[result < 255] = 0
         new_motion = np.count_nonzero(result)
 
@@ -78,14 +86,17 @@ def runVideo(video_fn, video_out_fn, opts, debug=False):
         if frame_num % int(fps)*5 == 0:
             print("- {} seconds done.".format(frame_num / fps))
        
-        #Show video during debugging locally
+        #Save debug video during debugging 
         if debug:
-            cv.imshow("result", result)
-            cv.imshow("frame", gray_curr)
-            cv.waitKey(1)
+            display_result = cv.cvtColor(cv.applyColorMap(display_result, cv.COLORMAP_JET), cv.COLOR_BGR2RGB)
+            display_result = np.hstack((cv.resize(frame_color, (frame_size[1],frame_size[0])), display_result))
+            video_debug.append_data(display_result)
 
     video_out.close()
     video.close()
+
+    if debug:
+        video_debug.close()
  
     #To prevent any memory leaks
     del pch
@@ -135,7 +146,8 @@ with open("params.json", "r") as f:
        
         print("{}: Reducing video to important events".format(video_fn))
         video_out_fn = video_fn.replace("." + search_["extension"], "_summ." + search_["extension"])
-        runVideo(video_fn, video_out_fn, opts)
+        video_debug_fn = video_fn.replace("." + search_["extension"], "_debug." + search_["extension"])
+        runVideo(video_fn, video_out_fn, opts, video_debug_fn )
        
         #Most of the video is not important, so we don't want to keep the original video to save space.
         if not opts["keepOriginal"]:

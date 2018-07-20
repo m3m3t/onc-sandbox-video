@@ -1,8 +1,8 @@
 {
     "onc" : {
-        "token" : "YOUR-TOKEN-HERE",
+        "token" : "YOUR_TOKEN_HERE",
         "production" : 1 ,
-        "showInfo" : 1,
+        "showInfo" : 0,
         "outPath" : "/app/data",
         "maxRetries" : 100,
         "downloadResultsOnly" : 1, 
@@ -19,7 +19,8 @@
     "summarize" : {
         "samplingRate" : 16,
         "sampleThreshold" : 10,
-        "keepOriginal" : 0,
+        "keepOriginal" : 1,
+        "debug" : 0,
         "pch": {
             "learning_rate" : 0.1,
             "use_gpu" : 0
